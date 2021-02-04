@@ -17,13 +17,15 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import SortByAlphaIcon from '@material-ui/icons/SortByAlpha';
+import {Line} from 'react-chartjs-2';
+import plan from '../icons/plan.jpg';
+import Paper from '@material-ui/core/Paper';
 
+import PanelHeader from "./PanelHeader";
 
-// import PanelHeader from "components/PanelHeader/PanelHeader.js";
-
-// import {
-//   dashboardPanelChart
-// } from "variables/charts.js";
+import {
+  dashboardPanelChart,
+} from "./Charts.js";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -90,6 +92,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: '900',
     textAlign: 'center'
   },
+  control: {
+    padding: theme.spacing(2),
+  },
 
 }));
 
@@ -109,54 +114,101 @@ const Dashboard = () => {
   };
   return (
     <div className={classes.root}>
-      <Grid container spacing={3}>
-       
-        <Grid item xs>
-          <h3 style={{marginLeft:'30px'}}>Dashboard</h3>
-          <Card className={classes.root}>
-            <CardActionArea>
-              <CardMedia
-                className={classes.debit}
-                image={debitCard}    
-              />
-              </CardActionArea>
-          </Card>
-        </Grid>
         
-        <Grid item xs>
-          <h3>Upcoming Payments</h3>
-          
-          <Grid container spacing={2}>
-            <Grid item xs>
-            <Card className={classes.card}>
-              <CardContent>
-                <CardMedia
-                className={classes.media}
-                image={salary}
-                />
-                  <Typography className={classes.title} color="textSecondary" gutterBottom>Salary</Typography>
-                  <Typography className={classes.subtitle} variant="h5" component="h2" textAlign="center">Belong interactive</Typography>
-                  <Typography className={classes.price} color="textSecondary">+$2000</Typography>
-              </CardContent>
-            </Card>
-            </Grid>
-              <Grid item xs>
-                <Card className={classes.card}>
-                  <CardContent>
-                  <CardMedia
-                      className={classes.media}
-                      image={payPal}
+        <Grid container spacing={4}>
+        
+            <Grid item xs={8}>
+                
+                <Grid container spacing={3}>
+                    <Grid item xs>
+                    <h3 style={{marginLeft:'30px'}}>Dashboard</h3>
+                    <Card className={classes.root}>
+                        <CardActionArea>
+                        <CardMedia
+                    className={classes.debit}
+                    image={debitCard}    
                     />
-                    <Typography className={classes.title} color="textSecondary" gutterBottom>PayPal</Typography>
-                    <Typography className={classes.subtitle} variant="h5" component="h2" textAlign="center">Freelance Payment</Typography>
-                    <Typography className={classes.price} color="textSecondary">$45:00</Typography>
-                  </CardContent>
-                </Card>
-              </Grid>         
+                    </CardActionArea>
+                    </Card>
+                    </Grid>
+
+            <Grid item xs>
+                <h3>Upcoming Payments</h3>
+          
+                <Grid container spacing={2}>
+                    <Grid item xs>
+                    <Card className={classes.card}>
+                    <CardContent>
+                        <CardMedia
+                        className={classes.media}
+                        image={salary}
+                        />
+                        <Typography className={classes.title} color="textSecondary" gutterBottom>Salary</Typography>
+                        <Typography className={classes.subtitle} variant="h5" component="h2" textAlign="center">Belong interactive</Typography>
+                        <Typography className={classes.price} color="textSecondary">+$2000</Typography>
+                    </CardContent>
+                    </Card>
+                    </Grid>
+
+                    <Grid item xs>
+                        <Card className={classes.card}>
+                        <CardContent>
+                        <CardMedia
+                            className={classes.media}
+                            image={payPal}
+                            />
+                            <Typography className={classes.title} color="textSecondary" gutterBottom>PayPal</Typography>
+                            <Typography className={classes.subtitle} variant="h5" component="h2" textAlign="center">Freelance Payment</Typography>
+                            <Typography className={classes.price} color="textSecondary">$45:00</Typography>
+                        </CardContent>
+                        </Card>
+                    </Grid>         
+                </Grid>
             </Grid>
-        
         </Grid>
-        
+            
+        <Grid container spacing={3}>
+                   
+            <Grid item xs>
+                
+            <Grid container 
+           className={classes.control}
+            direction='row'>
+                <h3 style={{marginLeft:'30px', marginRight:'450px'}}>Recent Transactions</h3>
+                
+                <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel htmlFor="outlined-sort-native-simple">Sort by</InputLabel>
+                <Select
+                    native
+                    value={state.sort}
+                    onChange={handleChange}
+                    label="Sort"
+                    inputProps={{
+                    name: 'sort',
+                    id: 'outlined-sort-native-simple',
+                    }}
+                >
+                    <option aria-label="None" value="" />
+                    <option value={10}>Default</option>
+                    <option value={20}>A-Z</option>
+                    <option value={30}>Z-A</option>
+                </Select>
+                </FormControl>
+                
+            </Grid>
+              
+               
+            <Grid container spacing={2}>
+                <Transaction />     
+            </Grid>
+            </Grid>
+        </Grid>
+
+
+        </Grid>
+
+       
+        <Grid item xs={4}>           
         <Grid item xs>
         <Card className={classes.chartPaper}>
           <CardHeader
@@ -177,17 +229,7 @@ const Dashboard = () => {
           style={{color:'red'}}
           >
           </Grid>
-          {/* <PanelHeader
-          size="lg"
-          content={
-            <Line
-              data={dashboardPanelChart.data}
-              options={dashboardPanelChart.options}
-            />
-          }
-        /> */}
-
-
+          
         <Grid container
          direction="row"
          justify="center"
@@ -211,65 +253,51 @@ const Dashboard = () => {
               <Button>Year</Button>
           </Grid>
         </Grid> 
-        <Grid container
-         direction="row"
-         justify="center"
-         alignItems="center"
-         className={classes.chartTitle}
-          >
-            <Grid item>
-              {/* <Demo /> */}
-            </Grid>
-          </Grid>
-
+       
+       
+        <>
+        <PanelHeader
+          size="lg"
+          content={
+            <Line
+              data={dashboardPanelChart.data}
+              options={dashboardPanelChart.options}
+            />
+          }
+        />
         
+      </>
+      <Card className={classes.root}>
+            <CardActionArea>
+              <CardMedia
+                className={classes.debit}
+                image={plan}    
+              />
+              </CardActionArea>
+          </Card>
         </CardContent>
         </Card>
+      
+
         </Grid>
+        </Grid>
+        </Grid>
+
+
+
+
+
+      <Grid container spacing={3}>
+       
+     
+        
+        
+
 
       </Grid>
 
-      <Grid container>
-        <Grid item xs={6}
-        style={{
-          marginTop: 20,
-        }}
-        >
-          <Grid container >
-            <Grid item xs={4}>
-            <h3 style={{marginLeft:'30px'}}>Recent Transaction</h3>
-            </Grid>
-            <Grid item xs={2}
-            style={{
-              marginLeft:200
-            }}
-            >
-            <FormControl variant="outlined" className={classes.formControl}>
-            <InputLabel htmlFor="outlined-sort-native-simple">Sort by</InputLabel>
-              <Select
-                native
-                value={state.sort}
-                onChange={handleChange}
-                label="Sort"
-                inputProps={{
-                  name: 'sort',
-                  id: 'outlined-sort-native-simple',
-                }}
-              >
-                <option aria-label="None" value="" />
-                <option value={10}>Default</option>
-                <option value={20}>A-Z</option>
-                <option value={30}>Z-A</option>
-              </Select>
-            </FormControl>
-            </Grid>
-            <SortByAlphaIcon fontSize="medium" />
 
-          </Grid>
-        <Transaction /> 
-        </Grid>
-      </Grid>
-
+      
     </div>
   );
 }
